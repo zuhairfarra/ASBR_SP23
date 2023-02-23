@@ -1,8 +1,8 @@
 function R = axisangle_to_rotation(w, theta)
     
-    % error if q input not 1x4 
-    if isequal(size(w), [1,3]) ~=1
-        error("Input q must be a 3x1 matrix")
+    % error if w input not 3x1 
+    if isequal(size(w), [3,1]) ~=1
+        error("Input w must be a 3x1 matrix")
     end 
 
     % get q values
@@ -10,5 +10,5 @@ function R = axisangle_to_rotation(w, theta)
     I = [1 0 0; 0 1 0; 0 0 1]; 
 
     % get R
-    R = I + w_ssm*sin(theta)+ (wssm^2)*(1-cos(theta));
+    R = I + w_ssm*sin(theta)+ (w_ssm^2)*(1-cos(theta));
 end 

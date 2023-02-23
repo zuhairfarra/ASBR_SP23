@@ -19,9 +19,9 @@ for idx = 1:length(theta_list)
     
     w = [0 -w_vector(3) w_vector(2);w_vector(3) 0 -w_vector(1);-w_vector(2) w_vector(1) 0];
     
-    R_TScrew = axisangle_to_rotation(w,theta_list(idx));
+    R_TScrew = axisangle_to_rotation(w_vector,theta_list(idx));
     
-    p_TScrew = (eye(3,3)*theta_list(idx)+(1-cos(theta_list(idx)))*w+(theta_list(idx)-sin(theta_list(idx)))*w^2)*v;
+    p_TScrew = (eye(3,3)*theta_list(idx)+(1-cos(theta_list(idx)))*w+(theta_list(idx)-sin(theta_list(idx)))*w^2)*v';
     
     T_screw = [R_TScrew p_TScrew; 0 0 0 1];
     

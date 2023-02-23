@@ -27,8 +27,8 @@ classdef Screw
             v = cross(-obj.s*obj.theta_dot,obj.q) + obj.h*obj.s*obj.theta_dot
             w = [0 -w_vector(3) w_vector(2);w_vector(3) 0 -w_vector(1);-w_vector(2) w_vector(1) 0];
             
-            R_TScrew = axisangle_to_rotation(w,theta);
-            p_TScrew = (eye(3,3)*theta+(1-cos(theta))*w+(theta-sin(theta))*w^2)*v;
+            R_TScrew = axisangle_to_rotation(w_vector',theta);
+            p_TScrew = (eye(3,3)*theta+(1-cos(theta))*w+(theta-sin(theta)).*w*2)*v';
             
             T_Screw = [R_TScrew p_TScrew; 0 0 0 1];
         end
