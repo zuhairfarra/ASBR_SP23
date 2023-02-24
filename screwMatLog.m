@@ -1,6 +1,6 @@
 function [S,theta] = screwMatLog(T)
-%UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+% Function takes a 4x4 configuration matrix and returns a 6x1 screw axis and rotation angle theta
+
 R = T(1:3,1:3);
 p = T(1:3,4);
 if isequal(R,eye(3))

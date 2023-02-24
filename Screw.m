@@ -1,6 +1,4 @@
 classdef Screw
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
 
     properties
         q
@@ -11,8 +9,7 @@ classdef Screw
 
     methods
         function obj = Screw(inArg1,inArg2,inArg3)
-            %UNTITLED5 Construct an instance of this class
-            %   Detailed explanation goes here
+            % Creates a Screw object with the specified q, s, and h.
             obj.q = inArg1;
             obj.s = inArg2;
             obj.h = inArg3;
@@ -20,8 +17,8 @@ classdef Screw
         end
 
         function T_Screw = getScrewExp(obj,theta)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            % Uses the specified screw object along with the passed angle theta to calculate the matrix exponential
+            % Output is a 4x4 matrix
             w_vector = obj.s*obj.theta_dot;
     
             v = cross(-obj.s*obj.theta_dot,obj.q) + obj.h*obj.s*obj.theta_dot

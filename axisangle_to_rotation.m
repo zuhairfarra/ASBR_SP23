@@ -5,7 +5,7 @@ function R = axisangle_to_rotation(w, theta)
         error("Input w must be a 3x1 matrix")
     end 
 
-    % get q values
+    % skew symmetric matrix of w
     w_ssm = [0 -w(3) w(2); w(3) 0 -w(1); -w(2) w(1) 0];
     I = [1 0 0; 0 1 0; 0 0 1]; 
 
