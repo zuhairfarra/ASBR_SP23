@@ -38,4 +38,14 @@ end
 theta = [pi/2,pi/2,pi/2,pi/2,pi/2,pi/2,pi/2];
 
 %% singularity 
-singularity = singularity_theoretical(S)
+syms t1 t2 t3 t4 t5 t6
+
+detM = det_redundancy(S); 
+diffdetM(1) = diff(detM,t1);
+diffdetM(2) = diff(detM,t2);
+diffdetM(3) = diff(detM,t3);
+diffdetM(4) = diff(detM,t4);
+diffdetM(5) = diff(detM,t5);
+diffdetM(6) = diff(detM,t6);
+
+diffdetM
