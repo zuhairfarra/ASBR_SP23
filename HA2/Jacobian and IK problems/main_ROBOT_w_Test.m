@@ -1,5 +1,5 @@
 %% SZF 04-05-2023 testing for ASBR PA2 
-
+load('J_test_data.mat')
 %% Robot Setup
 % Robotics System Toolbox is required for the following code
 
@@ -133,7 +133,7 @@ TestingAngles_0 = MyAngles(1,:);
 TestingAngles_final = MyAngles(end,:);
 TestConfig_0 = homeConfiguration(LBR);
 TestConfig_final = TestConfig_0;
-for idx =1:length(TestConfig)
+for idx =1:length(TestConfig_0)
     TestConfig_0(idx).JointPosition = TestingAngles_0(1,idx);
     TestConfig_final(idx).JointPosition = TestingAngles_final(1,idx);
 end
