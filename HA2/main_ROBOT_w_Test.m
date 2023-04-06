@@ -1,6 +1,7 @@
 %% SZF 04-05-2023 testing for ASBR PA2 
 
 %% Robot Setup
+% Robotics System Toolbox is required for the following code
 
 LBR = importrobot('iiwa7.urdf');
 
