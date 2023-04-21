@@ -8,9 +8,11 @@ if isequal(size(R),[3,3]) ~= 1
 end
 
 % These errors are thrown if R is not a valid entry
-if det(R) ~= 1
+tol = 0.0001;
+
+if abs(det(R)-1) > tol
     error('Determinant of rotation matrix R does not equal to +1 so R is not an element of SO(3).')
-elseif isequal(R*R',eye(3)) ~= 1
+elseif abs(trace(R*R'-eye(3))) > tol
     error('Rotation matrix R is not orthogonal because its transpose is not equivalent to its inverse.')
 end
 

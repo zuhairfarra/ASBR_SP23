@@ -4,19 +4,19 @@ function q = rot2Quat(R)
 % equivalent quaternion
 
 %   Detailed explanation goes here
-if isequal(size(R),[3,3]) ~= 1
+if ~isequal(size(R),[3,3])
     error('Input rotation matrix must be a 3x3 matrix.');
 end
 
 % Add checks for R as part of SO(3)
 
-if det(R) ~= 1
+tol = 0.0001;
+
+if abs(det(R)-1) > tol
     error('Determinant of rotation matrix R does not equal to +1 so R is not an element of SO(3).')
-elseif isequal(R*R',eye(3)) ~= 1
+elseif abs(trace(R*R'-eye(3))) > tol
     error('Rotation matrix R is not orthogonal because its transpose is not equivalent to its inverse.')
 end
-
-
 
 q0 = 0.5*sqrt(R(1,1)+R(2,2)+R(3,3)+1);
 q1 = 0.5*sgn(R(3,2)-R(2,3))*sqrt(R(1,1)-R(2,2)-R(3,3)+1);

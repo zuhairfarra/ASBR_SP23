@@ -3,19 +3,17 @@ function Angles_R_ZYX = rot2ZYX(R)
 % roll-pitch-yaw euler angle representation
 
 % Check if R is part of SO(3)
-if isequal(size(R),[3,3]) ~= 1
+if ~isequal(size(R),[3,3])
     error('Input rotation matrix must be a 3x3 matrix.');
 end
 
-if det(R) ~= 1
+tol = 0.0001;
+
+if abs(det(R)-1) > tol
     error('Determinant of rotation matrix R does not equal to +1 so R is not an element of SO(3).')
-elseif isequal(R*R',eye(3)) ~= 1
+elseif abs(trace(R*R'-eye(3))) > tol
     error('Rotation matrix R is not orthogonal because its transpose is not equivalent to its inverse.')
 end
-
-%
-
-% R_ZYX = struct();
 
 theta = atan2(-R(3,1),sqrt((R(3,2)^2)+(R(3,3))^2));
 
@@ -35,15 +33,6 @@ else
     Angles_R_ZYX = [rho;theta;phi];
 
 end
-
-
-% Rz_1 = elemRot('z',rho);
-% 
-% Ry_2 = elemRot('y',theta);
-% 
-% Rx_3 = elemRot('x',phi);
-% 
-% R_ZYX.Mat = Rz_1*Ry_2*Rx_3;
 
 
 end
