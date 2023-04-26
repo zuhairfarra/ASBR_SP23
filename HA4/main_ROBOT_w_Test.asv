@@ -101,27 +101,31 @@ T_sd3 = Tsb3;
 T_sd = T_sd3;
 theta_d = theta_R3;
 
-theta_0 = theta_d + 5*[-0.1 0.05 0.2 -0.1 -0.15 0.075 0.1]; %Introduce error into initial guess
+% theta_0 = theta_d + 5*[-0.1 0.05 0.2 -0.1 -0.15 0.075 0.1]; %Introduce error into initial guess
+theta_0 = [0 0 0 0 0 0 0]; %Introduce error into initial guess
 
 e_w = 0.001;
 e_v = 0.0001;
 
 % Test for J_inverse_kinematics
-[MyAngles,Ji_err_w,Ji_err_v,Ji_W] = J_inverse_kinematics(T_sd1,theta_0,S,M,e_w,e_v);
-num_iter_Ji = 1:length(MyAngles(:,1));
+% [MyAngles,Ji_err_w,Ji_err_v,Ji_W] = J_inverse_kinematics(T_sd1,theta_0,S,M,e_w,e_v);
+% num_iter_Ji = 1:length(MyAngles(:,1));
 
-% Test for J_transpose_kinematics
-K = eye(6)*0.5;
-[MyAnglesJT,Jt_err_w,Jt_err_v,Jt_W] = J_transpose_kinematics(T_sd1,theta_0,S,M,e_w,e_v,K);
-num_iter_Jt = 1:length(MyAnglesJT(:,1));
-
-% Test for redundancy_resolution
-[MyAnglesRR,RR_err_w,RR_err_v,RR_W] = ik_Redundancy_Resolution(T_sd1,theta_0,S,M,e_w,e_v);
-num_iter_RR = 1:length(MyAnglesRR(:,1));
+% % Test for J_transpose_kinematics
+% K = eye(6)*0.5;
+% [MyAnglesJT,Jt_err_w,Jt_err_v,Jt_W] = J_transpose_kinematics(T_sd1,theta_0,S,M,e_w,e_v,K);
+% num_iter_Jt = 1:length(MyAnglesJT(:,1));
+% 
+% % Test for redundancy_resolution
+% [MyAnglesRR,RR_err_w,RR_err_v,RR_W] = ik_Redundancy_Resolution(T_sd1,theta_0,S,M,e_w,e_v);
+% num_iter_RR = 1:length(MyAnglesRR(:,1));
 
 % Test for J_inv_nonlincon
-[MyAngles,Ji_err_w,Ji_err_v,Ji_W] = J_inv_nonlincon(T_sd1,theta_0,S,M,e_w,e_v,p_goal);
-num_iter_Ji = 1:length(MyAngles(:,1));
+p_tip = [0;0;0.100];
+p_goal = T_sd(1:3,4)+T_sd(1:3,1:3)*p_tip;
+
+[MyAnglesNL,Ji_err_w,Ji_err_v,Ji_W] = J_inv_nonlincon(T_sd,theta_0,S,M,e_w,e_v,p_goal);
+num_iter_Ji = 1:length(MyAnglesNL(:,1));
 
 % Resulting configuration from angles obtained by testing ik functions
 % Ji: J_inverse,    Jt: J_transpose,    RR: redundancy_resolution
@@ -130,7 +134,7 @@ Jt_T_final = FK_space(S,MyAnglesJT(end,:),M)
 RR_T_final = FK_space(S,MyAnglesRR(end,:),M)
 
 close all
-
+%%
 % Show robot in one of the configurations obtained from testing by using angles (initial vs. final)
 figure(1);
 TestingAngles_0 = MyAngles(1,:);

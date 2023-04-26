@@ -101,14 +101,15 @@ T_sd3 = Tsb3;
 T_sd = T_sd3;
 theta_d = theta_R3;
 
-theta_0 = theta_d + 5*[-0.1 0.05 0.2 -0.1 -0.15 0.075 0.1]; %Introduce error into initial guess
+% theta_0 = theta_d + 5*[-0.1 0.05 0.2 -0.1 -0.15 0.075 0.1]; %Introduce error into initial guess
+theta_0 = [0 0 0 0 0 0 0]; %Introduce error into initial guess
 
 e_w = 0.001;
 e_v = 0.0001;
 
 % Test for J_inverse_kinematics
-[MyAngles,Ji_err_w,Ji_err_v,Ji_W] = J_inverse_kinematics(T_sd1,theta_0,S,M,e_w,e_v);
-num_iter_Ji = 1:length(MyAngles(:,1));
+% [MyAngles,Ji_err_w,Ji_err_v,Ji_W] = J_inverse_kinematics(T_sd1,theta_0,S,M,e_w,e_v);
+% num_iter_Ji = 1:length(MyAngles(:,1));
 
 % % Test for J_transpose_kinematics
 % K = eye(6)*0.5;
