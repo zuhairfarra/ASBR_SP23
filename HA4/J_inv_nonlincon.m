@@ -27,7 +27,7 @@ p_tip = [0;0;0.100];
 upper_bound = deg2rad([170 120 170 120 170 120 175]);
 lower_bound = -1*upper_bound;
 
-dq = [0 0 0 0 0 0 0];
+dq = [0.01 0.01 0.01 0.01 0.01 0.01 0.01];
 
 while (norm(Vs(1:3)) > e_w || norm(Vs(4:6)) > e_v)
     
@@ -37,8 +37,25 @@ while (norm(Vs(1:3)) > e_w || norm(Vs(4:6)) > e_v)
     
     J_a = J(1:3,:);
     J_e = J(4:6,:);
+
+    C = ssm(-t)*J_a + J_e;
+    d = p_goal-t;
+    Aeq = [];
+    beq = [];
+    lb = (lower_bound-theta_i(idx,:))';
+    ub = (upper_bound-theta_i(idx,:))';
+    % n = m = 50
+    z = 50;
+    for idx = 1:z
+        alpha = idx*2*pi/z;
+        beta = idx*2*pi/z;
+        A_lin(idx,:) = [cos(alpha)*cos(beta) cos(alpha)*sin(beta) sin(alpha)]*(ssm(-t)*J_a+J_e);
+        b_lin(idx,:) = 0.003 - [cos(alpha)*cos(beta) cos(alpha)*sin(beta) sin(alpha)]*(t - p_goal);
+    end
+
+    dq = lsqlin(C,d,A_lin,b_lin,Aeq,beq,lb,ub)
     
-    fun = @(x) norm((ssm(t)*J_a + J_e)*x'+(t-p_goal));
+    fun = @(x) norm((ssm(-t)*J_a + J_e)*x'+(t-p_goal));
     
     A = [];
     b = [];
@@ -73,7 +90,7 @@ end
 theta_d = theta_i;
 
     function [c,ceq] = D_nonlin(x)
-        c = norm((ssm(t)*J_a + J_e)*x'+(t-p_goal)) - 0.003;
+        c = norm((ssm(-t)*J_a + J_e)*x'+(t-p_goal)) - 0.003;
         ceq = [];
     end
 
